@@ -113,7 +113,7 @@ class Grid
 		PrintInfo();
 		for(int j = 0; j < XSIZE + 2; ++j) System.out.print("X");
 		System.out.println("");
-		for(int i = YSIZE - 1; i > 0; --i)
+		for(int i = YSIZE - 1; i >= 0; --i)
 		{
 			System.out.print("X");
 			for(int j = 0; j < XSIZE; ++j)
