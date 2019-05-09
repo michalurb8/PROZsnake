@@ -1,6 +1,0 @@
-#!/bin/bash
-
-rm *.class -f
-javac *.java
-java Game
-rm *.class -f

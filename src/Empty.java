@@ -1,15 +1,27 @@
 class Empty extends Tile
 {
-    public boolean isEmpty()
+    private boolean changes;
+
+    Empty()
     {
-        return true;
+        changes = false;
     }
-    public boolean isSnake()
+
+    public boolean GetChanges()
+    {
+        return changes;
+    }
+
+    public void SetChanges(boolean changesArg)
+    {
+        changes = changesArg;
+    }
+
+    public boolean Deadly()
     {
         return false;
     }
-    public boolean isFruit()
+    public void Eat()
     {
-        return false;
     }
 }

@@ -13,6 +13,4 @@ abstract class Tile
     {
         position = positionArg;
     }
-
-    abstract public boolean isEmpty();
 }

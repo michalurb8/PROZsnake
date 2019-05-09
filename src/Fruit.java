@@ -1,30 +1,21 @@
+import java.util.Random;
+
 class Fruit extends Tile
 {
     private int nutrition;
+    private Random generator = new Random();
 
     public Fruit()
     {
-        nutrition = 1;
-    }
 
-    public int getNutr()
+        nutrition = 1+Math.abs(generator.nextInt())%3;
+    }
+    public int GetNutr()
     {
         return nutrition;
     }
-    public void setNutr(int nutritionArg)
+    public void SetNutr(int nutritionArg)
     {
         nutrition = nutritionArg;
-    }
-    public boolean isEmpty()
-    {
-        return false;
-    }
-    public boolean isSnake()
-    {
-        return false;
-    }
-    public boolean isFruit()
-    {
-        return true;
     }
 }
