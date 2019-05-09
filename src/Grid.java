@@ -3,8 +3,8 @@ import java.util.Random;
 import java.lang.Math;
 class Grid
 {
-	private static final int XSIZE = 20;
-	private static final int YSIZE = 20;
+	private static final int XSIZE = 10;
+	private static final int YSIZE = 10;
 	private static int direction; // 0,1,2,3 - UP, RIGHT, DOWN, LEFT
 	private Coordinates head;
 	private Coordinates nextHead;
@@ -101,12 +101,16 @@ class Grid
 	{
 		//System.out.println("ur ded");
 	}
-	public void PrintHead()
+	public void PrintInfo()
 	{
-		System.out.println("sznek: " + head.xPos + " " + head.yPos + ", Len: " + length + ", Frute: " + fruit.xPos + " " + fruit.yPos + ", Dir: " + direction);
+		System.out.println("sznek: " + head.xPos + " " + head.yPos);
+		System.out.println("Len: " + length + ", Dir: " + direction);
+		System.out.println("Frute: " + fruit.xPos + " " + fruit.yPos);
+		System.out.println("eaten: " + eaten + ", Growth: " + growth);
 	}
 	public void PrintGame()
 	{
+		PrintInfo();
 		for(int j = 0; j < XSIZE + 2; ++j) System.out.print("X");
 		System.out.println("");
 		for(int i = YSIZE - 1; i > 0; --i)
