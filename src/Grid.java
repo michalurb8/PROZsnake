@@ -49,6 +49,8 @@ class Grid
 		if(direction != 1 && choice == 'a') direction = 3;
 		if(direction != 2 && choice == 'w') direction = 0;
 		if(direction != 3 && choice == 'd') direction = 1;
+		if(direction != 3 && choice == 'q') return false;
+
 		try
 		{
 			TimeUnit.MILLISECONDS.sleep(100);
@@ -62,7 +64,6 @@ class Grid
 		eaten = Eat();
 		TakeStep();
 		if(eaten) PlaceFruit();
-		//direction = ((3+direction + (Math.abs(generator.nextInt()%3))))%4;
 		PrintGame();
 		return true;
 	}
@@ -103,14 +104,14 @@ class Grid
 	}
 	public void PrintInfo()
 	{
-		System.out.println("sznek: " + head.xPos + " " + head.yPos);
-		System.out.println("Len: " + length + ", Dir: " + direction);
-		System.out.println("Frute: " + fruit.xPos + " " + fruit.yPos);
-		System.out.println("eaten: " + eaten + ", Growth: " + growth);
+		System.out.println("SnekPos: " + head.xPos + " " + head.yPos);
+		System.out.println("Length: " + length + ", Direction: " + direction);
+		System.out.println("FruitPos: " + fruit.xPos + " " + fruit.yPos);
+		System.out.println("Eaten?: " + eaten + ", Growth: " + growth);
 	}
 	public void PrintGame()
 	{
-		PrintInfo();
+		//PrintInfo();
 		for(int j = 0; j < XSIZE + 2; ++j) System.out.print("X");
 		System.out.println("");
 		for(int i = YSIZE - 1; i >= 0; --i)
@@ -128,9 +129,9 @@ class Grid
 				{
 
 					Snake temp = (Snake)array[i][j];
-					if(temp.IsHead()) System.out.print("Y");
+					if(temp.IsHead()) System.out.print("B");
 					else if(temp.IsTail()) System.out.print("I");
-					else System.out.print("B");
+					else System.out.print("O");
 				}
 			}
 			System.out.println("X");
@@ -170,12 +171,16 @@ class Grid
 		}
 		if(nextHead.xPos < 0 || nextHead.xPos >= XSIZE || nextHead.yPos < 0 || nextHead.yPos >= YSIZE)
 		{
-			System.out.println("ur ded bc wall");
+			System.out.println("GAME OVER");
+			System.out.println("You hit a wall");
 			return false;
 		}
 		if(array[nextHead.yPos][nextHead.xPos] instanceof Snake)
 		{
-			System.out.println("ur ded bc urself");
+			Snake temp = (Snake) array[nextHead.yPos][nextHead.xPos];
+			if(temp.IsTail()) return true;
+			System.out.println("GAME OVER");
+			System.out.println("You bit yourself");
 			return false;
 		}
 		
