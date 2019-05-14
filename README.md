@@ -1,5 +1,5 @@
 # proz-snake
-Simple snake game in Java, right now run in console only.
+A simple snake game in Java, right now run in console only.
 
 Future features:
 - GUI
