@@ -1,7 +1,7 @@
 import java.util.Scanner;
 class Game
 {
-	public static void main(String[] args)
+	public void play()
 	{
 		Scanner sc = new Scanner(System.in);
         Grid Board = new Grid();
