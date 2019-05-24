@@ -42,7 +42,7 @@ public class Main extends Application
                         if(!tick(gc)) super.stop();
                         return;
                     }
-                    if (now - lastTick > 100000000)
+                    if (now - lastTick > 170000000 - 1200000 * board.GetLen())
                     {
                         lastTick = now;
                         if(!tick(gc)) super.stop();
@@ -87,7 +87,7 @@ public class Main extends Application
         if (!board.Update()) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("", 50));
-            gc.fillText("GAME OVER", 100, 250);
+            gc.fillText("GAME OVER\n\nScore: " + board.GetLen(), 100, 250);
             return false;
         }
         for (int y = 0; y < height; ++y) {

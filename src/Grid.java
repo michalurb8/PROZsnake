@@ -144,4 +144,8 @@ class Grid
 	{
 		return array[yArg][xArg];
 	}
+	public int GetLen()
+	{
+		return length;
+	}
 }

@@ -26,7 +26,7 @@ class Empty extends Tile
     {
         super.DrawBG(xArg, yArg, scale, gc);
         gc.setFill(color);
-        gc.fillOval(xArg * scale, yArg * scale, 5, 5);
+        gc.fillOval(15 + xArg * scale,  10 + yArg * scale, 5, 5);
     }
 
 }
