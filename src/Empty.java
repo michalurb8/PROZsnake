@@ -1,27 +1,32 @@
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
+import java.util.Random;
+
 class Empty extends Tile
 {
-    private boolean changes;
-
     Empty()
     {
-        changes = false;
+        switch(new Random().nextInt(40))
+        {
+            case 0:
+                color = Color.DARKBLUE;
+                break;
+            case 1:
+                color = Color.YELLOW;
+                break;
+            case 2:
+                color = Color.ORANGERED;
+                break;
+            default:
+                color = Color.DARKGREEN;
+        }
+    }
+    public void Draw(int xArg, int yArg, int scale, GraphicsContext gc)
+    {
+        super.DrawBG(xArg, yArg, scale, gc);
+        gc.setFill(color);
+        gc.fillOval(xArg * scale, yArg * scale, 5, 5);
     }
 
-    public boolean GetChanges()
-    {
-        return changes;
-    }
-
-    public void SetChanges(boolean changesArg)
-    {
-        changes = changesArg;
-    }
-
-    public boolean Deadly()
-    {
-        return false;
-    }
-    public void Eat()
-    {
-    }
 }

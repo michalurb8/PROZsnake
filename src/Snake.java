@@ -1,15 +1,11 @@
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 class Snake extends Tile
 {
     private boolean head;
     private boolean tail;
     private int index;
-
-    public Snake()
-    {
-        head = true;
-        tail = false;
-        index = 0;
-    }
     public Snake(boolean headArg, boolean tailArg, int indexArg)
     {
         head = headArg;
@@ -36,12 +32,15 @@ class Snake extends Tile
     {
         return index;
     }
-    public void SetIndex(int indexArg)
-    {
-        index = indexArg;
-    }
     public void Decrement()
     {
         index--;
+    }
+
+    public void Draw(int xArg, int yArg, int scale, GraphicsContext gc)
+    {
+        super.DrawBG(xArg, yArg, scale, gc);
+        gc.setFill(Color.rgb(index, index, index));
+        gc.fillRect(xArg * scale, yArg * scale, scale, scale);
     }
 }

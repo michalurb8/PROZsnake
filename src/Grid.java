@@ -1,11 +1,11 @@
-import java.util.concurrent.TimeUnit;
 import java.util.Random;
 import java.lang.Math;
 class Grid
 {
-	private static final int XSIZE = 10;
-	private static final int YSIZE = 10;
+	private static int XSIZE = 20;
+	private static int YSIZE = 20;
 	private static int direction; // 0,1,2,3 - UP, RIGHT, DOWN, LEFT
+	private static int newDirection;
 	private Coordinates head;
 	private Coordinates nextHead;
 	private Coordinates fruit;
@@ -14,10 +14,12 @@ class Grid
 	private int growth;
 	private int length;
 
-	Tile[][] array;
+	private Tile[][] array;
 
-	public Grid()
+	public Grid(int xArg, int yArg)
 	{
+		XSIZE = xArg;
+		YSIZE = yArg;
 		array = new Tile[YSIZE][XSIZE];
 		for(int i = 0; i < YSIZE ; ++i)
 		{
@@ -34,7 +36,7 @@ class Grid
 		array[2][1] = new Snake(false,false,1);
 		array[2][0] = new Snake(false,true,0);
 		
-		direction = 1;
+		direction = newDirection = 1;
 
 		fruit = new Coordinates(2, 4);
 
@@ -43,28 +45,13 @@ class Grid
 		eaten = false;
 		PlaceFruit();
 	}
-	public boolean Update(char choice)
+	public boolean Update()
 	{
-		if(direction != 0 && choice == 's') direction = 2;
-		if(direction != 1 && choice == 'a') direction = 3;
-		if(direction != 2 && choice == 'w') direction = 0;
-		if(direction != 3 && choice == 'd') direction = 1;
-		if(direction != 3 && choice == 'q') return false;
-
-		try
-		{
-			TimeUnit.MILLISECONDS.sleep(100);
-		}
-		catch(Exception xd){}
-		if(CanStep() == false)
-		{
-			Dead();
-			return false;
-		}
+	    direction = newDirection;
+		if(!CanStep()) return false;
 		eaten = Eat();
 		TakeStep();
 		if(eaten) PlaceFruit();
-		PrintGame();
 		return true;
 	}
 	private void TakeStep()
@@ -98,46 +85,9 @@ class Grid
 		head.xPos = nextHead.xPos;
 		head.yPos = nextHead.yPos;
 	}
-	private void Dead()
+	public void TryDir(int dirArg)
 	{
-		//System.out.println("ur ded");
-	}
-	public void PrintInfo()
-	{
-		System.out.println("SnekPos: " + head.xPos + " " + head.yPos);
-		System.out.println("Length: " + length + ", Direction: " + direction);
-		System.out.println("FruitPos: " + fruit.xPos + " " + fruit.yPos);
-		System.out.println("Eaten?: " + eaten + ", Growth: " + growth);
-	}
-	public void PrintGame()
-	{
-		//PrintInfo();
-		for(int j = 0; j < XSIZE + 2; ++j) System.out.print("X");
-		System.out.println("");
-		for(int i = YSIZE - 1; i >= 0; --i)
-		{
-			System.out.print("X");
-			for(int j = 0; j < XSIZE; ++j)
-			{
-				if(array[i][j] instanceof Empty) System.out.print(" ");
-				if(array[i][j] instanceof Fruit)
-				{
-					Fruit temp = (Fruit)array[i][j];
-					System.out.print(temp.GetNutr());
-				}
-				if(array[i][j] instanceof Snake)
-				{
-
-					Snake temp = (Snake)array[i][j];
-					if(temp.IsHead()) System.out.print("B");
-					else if(temp.IsTail()) System.out.print("I");
-					else System.out.print("O");
-				}
-			}
-			System.out.println("X");
-		}
-		for(int j = 0; j < XSIZE + 2; ++j) System.out.print("X");
-		System.out.println("");
+		if ((dirArg - direction + 6) % 4 != 0) newDirection = dirArg;
 	}
 	private void PlaceFruit()
 	{
@@ -171,16 +121,12 @@ class Grid
 		}
 		if(nextHead.xPos < 0 || nextHead.xPos >= XSIZE || nextHead.yPos < 0 || nextHead.yPos >= YSIZE)
 		{
-			System.out.println("GAME OVER");
-			System.out.println("You hit a wall");
 			return false;
 		}
 		if(array[nextHead.yPos][nextHead.xPos] instanceof Snake)
 		{
 			Snake temp = (Snake) array[nextHead.yPos][nextHead.xPos];
 			if(temp.IsTail()) return true;
-			System.out.println("GAME OVER");
-			System.out.println("You bit yourself");
 			return false;
 		}
 		
@@ -193,5 +139,9 @@ class Grid
 		growth += temp.GetNutr();
 		array[nextHead.yPos][nextHead.xPos] = new Empty();
 		return true;
+	}
+	public Tile GetTile(int xArg, int yArg)
+	{
+		return array[yArg][xArg];
 	}
 }
