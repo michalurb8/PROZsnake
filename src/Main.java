@@ -10,46 +10,27 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.Random;
-
 public class Main extends Application
 {
-    private final static int scale = 30, width = 30, height = 30;
+    private final static int scale = 40, width = 20, height = 20;
+    private static boolean over  = false, pause = false;
     private static Grid board;
     public static void main(String[] args)
     {
         launch(args);
     }
     @Override
-    public void start(Stage stage) throws Exception {
-        try {
-            board = new Grid(width, height);
+    public void start(Stage stage)
+    {
+        try
+        {
+            board = new Grid(width, height, scale); //Adding new board to play on
             VBox root = new VBox();
             Canvas canv = new Canvas(width * scale, height * scale);
             GraphicsContext gc = canv.getGraphicsContext2D();
 
             root.getChildren().add(canv);
 
-            new AnimationTimer()
-            {
-                long lastTick = 0;
-                @Override
-                public void handle(long now)
-                {
-                    if (lastTick == 0)
-                    {
-                        lastTick = now;
-                        if(!tick(gc)) super.stop();
-                        return;
-                    }
-                    if (now - lastTick > 170000000 - 1200000 * board.GetLen())
-                    {
-                        lastTick = now;
-                        if(!tick(gc)) super.stop();
-                    }
-
-                }
-            }.start();
             Scene scene = new Scene(root, width * scale, height * scale);
 
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
@@ -69,32 +50,82 @@ public class Main extends Application
                {
                    board.TryDir(1);
                }
-               else if(key.getCode() == KeyCode.R)
+               else if(key.getCode() == KeyCode.P)//P toggles pause if game is not over
                {
-                   board = new Grid(width, height);
+                   if(!over)
+                   {
+                       if(pause)
+                       {
+                           pause = false;
+                       }
+                       else
+                       {
+                           gc.setFill(Color.BLUEVIOLET);
+                           gc.setFont(new Font("", 50));
+                           gc.fillText("Game paused\n\n\n[p]", 100, 250);
+                           pause = true;
+                       }
+                   }
                }
+               else if(key.getCode() == KeyCode.R)//R resets the game anytime
+               {
+                   pause = false;
+                   board = new Grid(width, height, scale);
+                   over = false;
+               }
+
             });
 
             stage.setScene(scene);
-            stage.setTitle("SZNEK");
+            stage.setTitle("SZNAKE");
             stage.show();
+
+            new AnimationTimer()
+            {
+                long lastTick = 0;
+                @Override
+                public void handle(long now)
+                {
+                    if (lastTick == 0)
+                    {
+                        lastTick = now;
+                        tick(gc);
+                        return;
+                    }
+                    if (now - lastTick > 160000000 - 800000 * board.GetLen())//framerate depends on snake length
+                    {
+                        lastTick = now;
+                        tick(gc);
+                    }
+
+                }
+            }.start();
+
         } catch(Exception e)
         {
             e.printStackTrace();
         }
     }
-    private static boolean tick(GraphicsContext gc) {
-        if (!board.Update()) {
-            gc.setFill(Color.RED);
-            gc.setFont(new Font("", 50));
-            gc.fillText("GAME OVER\n\nScore: " + board.GetLen(), 100, 250);
-            return false;
+    private static void tick(GraphicsContext gc)
+    {
+        if(pause || over)//return if the game is paused or lost
+        {
+            return;
         }
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
-                board.GetTile(x, y).Draw(x, y, scale, gc);
+        over = !board.Update();//update one frame
+        if(over)//and check if the game is lost
+        {
+            gc.setFill(Color.BLACK);
+            gc.setFont(new Font("", 50));
+            gc.fillText("Game over.\n\nScore: " + board.GetLen() +  "\n\n\n[r]", 100, 250);
+            return;
+        }
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                board.GetTile(x, y).Draw(x, y, scale, gc); //if not, draw everything on the screen
             }
         }
-        return true;
     }
 }

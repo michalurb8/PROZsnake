@@ -5,8 +5,12 @@ import java.util.Random;
 
 class Empty extends Tile
 {
-    Empty()
+    private int xPos, yPos, size;
+    Empty(int scale)
     {
+        size = new Random().nextInt(2) + 5; //flower variables
+        xPos = new Random().nextInt(scale - size);
+        yPos = new Random().nextInt(scale - size);
         switch(new Random().nextInt(40))
         {
             case 0:
@@ -16,7 +20,10 @@ class Empty extends Tile
                 color = Color.YELLOW;
                 break;
             case 2:
-                color = Color.ORANGERED;
+                color = Color.MEDIUMVIOLETRED;
+                break;
+            case 3:
+                color = Color.PINK;
                 break;
             default:
                 color = Color.DARKGREEN;
@@ -26,7 +33,7 @@ class Empty extends Tile
     {
         super.DrawBG(xArg, yArg, scale, gc);
         gc.setFill(color);
-        gc.fillOval(15 + xArg * scale,  10 + yArg * scale, 5, 5);
+        gc.fillOval(xPos + xArg * scale,  yPos + yArg * scale, size, size); //draw flowers
     }
 
 }

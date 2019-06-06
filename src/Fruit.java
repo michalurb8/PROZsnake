@@ -5,22 +5,24 @@ import java.util.Random;
 
 class Fruit extends Tile
 {
-    private int nutrition;
-    private Random generator = new Random();
+    private int nutrition;//determines how much snake grows if eats the fruit
 
     public Fruit()
     {
 
-        nutrition = 1+Math.abs(generator.nextInt())%3;
+        nutrition = 1+Math.abs(new Random().nextInt())%4;
         switch(nutrition)
         {
             case 1:
-                color = Color.LIGHTPINK;
+                color = Color.WHITE;
                 break;
             case 2:
-                color = Color.PINK;
+                color = Color.LIGHTPINK;
                 break;
             case 3:
+                color = Color.PINK;
+                break;
+            case 4:
                 color = Color.HOTPINK;
         }
     }

@@ -9,5 +9,6 @@ abstract class Tile
         gc.setFill(Color.DARKGREEN);
         gc.fillRect(xArg * scale, yArg * scale, scale, scale);
     }
+
     public Color color;
 }
