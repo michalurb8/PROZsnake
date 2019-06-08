@@ -62,7 +62,7 @@ public class Main extends Application
                        {
                            gc.setFill(Color.BLUEVIOLET);
                            gc.setFont(new Font("", 50));
-                           gc.fillText("Game paused\n\n\n[p]", 100, 250);
+                           gc.fillText("Game paused\n\n\n        [p]", 220, 250);
                            pause = true;
                        }
                    }
@@ -116,8 +116,10 @@ public class Main extends Application
         if(over)//and check if the game is lost
         {
             gc.setFill(Color.BLACK);
+            gc.setFont(new Font("", 100));
+            gc.fillText("GAME OVER", 100, 250);
             gc.setFont(new Font("", 50));
-            gc.fillText("Game over.\n\nScore: " + board.GetLen() +  "\n\n\n[r]", 100, 250);
+            gc.fillText("\n   Score: " + board.GetLen() +  "\n\n\n        [r]", 250, 300);
             return;
         }
         for (int y = 0; y < height; ++y)
